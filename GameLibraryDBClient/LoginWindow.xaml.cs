@@ -28,17 +28,40 @@ namespace GameLibraryDBClient
             DBManager.SERVICE = Service.Text;
             DBManager.LOGIN = Login.Text;
             DBManager.PASSWORD = Password.Text;
+            var cancelToken = new CancellationTokenSource();
+            ShowLoadingText();
 
-            try
+            DBManager.Connect(
+                () => 
+                {
+                    cancelToken.Cancel();
+                    ConnectionStatus.Text = "SUKCES";
+                },
+                ex =>
+                {
+                    cancelToken.Cancel();
+                    ConnectionStatus.Text = "BLAD W POLACZENIU Z BAZA DANYCH: " + ex.Message;
+                }
+            );
+            
+            async Task ShowLoadingText()
             {
-                DBManager.Connect();
+                try
+                {
+                    while (true)
+                    {
+                        cancelToken.Token.ThrowIfCancellationRequested();
+                        ConnectionStatus.Text = "TRWA ŁĄCZENIE";
+                        for (int i = 0; i < 3; i++)
+                        {
+                            cancelToken.Token.ThrowIfCancellationRequested();
+                            ConnectionStatus.Text += ".";
+                            await Task.Delay(1000, cancelToken.Token);
+                        }
+                    }
+                }
+                catch (Exception ex) { }
             }
-            catch(Exception ex)
-            {
-                ConnectionStatus.Text = "BLAD W POLACZENIU Z BAZA DANYCH: " + ex.Message + "\n CONNECTION STRING:\n" + DBManager.cst;
-                return;
-            }
-            ConnectionStatus.Text = "SUKCES";
         }
     }
 }

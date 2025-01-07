@@ -16,11 +16,21 @@ namespace GameLibraryDBClient
         public static string PASSWORD = "";
         public static OracleConnection Client = null!;
         public static string cst = "";
-        public static void Connect()
+        public static async void Connect(Action onSuccess, Action<Exception> onFail)
         {
             cst =$"User Id={LOGIN};Password={PASSWORD};Data Source={IP}:{PORT}/{SERVICE}";
-            Client = new OracleConnection(cst);
-            Client.Open();
+            try
+            {
+                Client = new OracleConnection(cst);
+                await Client.OpenAsync();
+                onSuccess.Invoke();
+                return;
+            }catch(Exception ex)
+            {
+                onFail.Invoke(ex);
+                return;
+            }
+
         }
 
     }
