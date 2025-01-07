@@ -46,21 +46,17 @@ namespace GameLibraryDBClient
             
             async Task ShowLoadingText()
             {
-                try
+                while (true)
                 {
-                    while (true)
+                    cancelToken.Token.ThrowIfCancellationRequested();
+                    ConnectionStatus.Text = "TRWA ŁĄCZENIE";
+                    for (int i = 0; i < 3; i++)
                     {
                         cancelToken.Token.ThrowIfCancellationRequested();
-                        ConnectionStatus.Text = "TRWA ŁĄCZENIE";
-                        for (int i = 0; i < 3; i++)
-                        {
-                            cancelToken.Token.ThrowIfCancellationRequested();
-                            ConnectionStatus.Text += ".";
-                            await Task.Delay(1000, cancelToken.Token);
-                        }
+                        ConnectionStatus.Text += ".";
+                        await Task.Delay(1000, cancelToken.Token);
                     }
                 }
-                catch (Exception ex) { }
             }
         }
     }
