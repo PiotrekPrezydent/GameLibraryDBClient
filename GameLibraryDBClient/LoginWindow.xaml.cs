@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Data;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +17,11 @@ namespace GameLibraryDBClient
     /// </summary>
     public partial class LoginWindow : Window
     {
+        public static LoginWindow Instance = null!;
         public LoginWindow()
         {
             InitializeComponent();
+            Instance = this;
         }
 
         private void ConnectBTN_Click(object sender, RoutedEventArgs e)
@@ -30,12 +33,19 @@ namespace GameLibraryDBClient
             DBManager.PASSWORD = Password.Text;
             var cancelToken = new CancellationTokenSource();
             ShowLoadingText();
-
+#if DEBUG
+            if(DBManager.IP == "DEBUG")
+            {
+                AppManager.StartMainMenuWindow();
+                return;
+            }
+#endif
             DBManager.Connect(
                 () => 
                 {
                     cancelToken.Cancel();
                     ConnectionStatus.Text = "SUKCES";
+                    AppManager.StartMainMenuWindow();
                 },
                 ex =>
                 {

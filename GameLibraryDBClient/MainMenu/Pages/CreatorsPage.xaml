@@ -1,0 +1,23 @@
+﻿<Page x:Class="GameLibraryDBClient.MainMenu.Pages.CreatorsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GameLibraryDBClient.MainMenu.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="600"
+      Title="CreatorsPage">
+
+    <StackPanel Background="White">
+        <StackPanel Orientation="Horizontal">
+            <Button Height="150" Width="150" Margin="24">Wyswietl Twórców</Button>
+            <Button Height="150" Width="150" Margin="24">Dodaj Twórce</Button>
+            <Button Height="150" Width="150" Margin="24">Usuń Twórce</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Height="150" Width="150" Margin="24">WIP</Button>
+            <Button Height="150" Width="150" Margin="24">WIP</Button>
+            <Button Height="150" Width="150" Margin="24">WIP</Button>
+        </StackPanel>
+    </StackPanel>
+</Page>
